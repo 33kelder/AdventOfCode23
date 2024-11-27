@@ -18,8 +18,18 @@ type Game = {
 
 let loadedSet = {Blue = 14; Red = 12; Green = 13}
 
-let parseLine line =
-    {ID = 1; Sets = seq{{Blue = 14; Red = 12; Green = 13}} }
+let parseSet (line:string) = 
+    let cubes = line.Split ','
+    {Blue = 1; Red = 1; Green = 1}
+
+let parseLine (line:string) =
+    let id = 
+        (line.Split ':').[0].Remove(0, 5) 
+        |> int
+    let sets = 
+        (line.Split ':').[1].Split ';'
+        |> Seq.map parseSet
+    {ID = id; Sets = sets }
 
 let filterGame (game:Game) =
     Seq.length game.Sets > 0
